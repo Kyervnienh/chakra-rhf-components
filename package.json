@@ -1,0 +1,55 @@
+{
+  "name": "chakra-rhf-components",
+  "version": "0.0.0",
+  "type": "module",
+  "author": {
+    "email": "kevin.kyervnienh@gmail.com",
+    "name": "Kevin López (Kyerv)",
+    "url": "https://kyerv.com"
+  },
+  "files": ["dist"],
+  "main": "./dist/index.umd.js",
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && vite build",
+    "dev": "vite",
+    "lint": "biome check --write --unsafe --no-errors-on-unmatched --files-ignore-unknown=true ./",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "chakra-react-select": "^6.0.1"
+  },
+  "peerDependencies": {
+    "@chakra-ui/react": "^3.11.0",
+    "chakra-react-select": "^6.0.1",
+    "react": "^18.0.0",
+    "react-hook-form": "^7.54.2"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@chakra-ui/react": "^3.11.0",
+    "@emotion/react": "^11.4.0",
+    "@types/react": "^18.0.10",
+    "@types/react-dom": "^18.0.0",
+    "@vitejs/plugin-react-swc": "^3.8.0",
+    "globals": "^15.15.0",
+    "react": "^18.0.0",
+    "react-dom": "18.0.0",
+    "react-hook-form": "^7.54.2",
+    "typescript": "~5.8.2",
+    "vite": "^6.2.1",
+    "vite-plugin-dts": "^4.5.3",
+    "vite-plugin-externalize-deps": "^0.9.0"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["@biomejs/biome", "@swc/core", "esbuild"]
+  }
+}
