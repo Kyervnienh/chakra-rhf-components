@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
@@ -19,4 +20,24 @@ export default defineConfig({
     dts({ copyDtsFiles: true, insertTypesEntry: true }),
     externalizeDeps(),
   ],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/tests/setupTests.ts',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      all: true,
+      include: ['src/**/*.{js,jsx,ts,tsx}'],
+      exclude: [
+        'node_modules',
+        'src/**/*.d.{js,jsx,ts,tsx}',
+        'src/**/*.gen.{js,jsx,ts,tsx}',
+        'src/**/*.test.{js,jsx,ts,tsx}',
+        'src/assets/',
+        'src/client/',
+        'src/tests/',
+      ],
+    },
+  },
 });
