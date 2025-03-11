@@ -1,6 +1,5 @@
+import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { ChakraProvider } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 import ControlledPasswordInput from '../ControlledPasswordInput';
 
@@ -17,7 +16,7 @@ const TestComponent = ({
   if (setErrorMessage) setError(name, { message: setErrorMessage });
 
   return (
-    <ChakraProvider>
+    <ChakraProvider value={createSystem(defaultConfig)}>
       <ControlledPasswordInput
         control={control}
         fieldError={fieldError}
@@ -34,7 +33,7 @@ describe('ControlledPasswordInput', () => {
   test('renders correctly with label', () => {
     render(<TestComponent name="test-input" label="Test Input" />);
 
-    expect(screen.getByLabelText(/test input/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/test input/i)).toBeDefined();
   });
 
   test('handles input change', () => {
@@ -51,7 +50,7 @@ describe('ControlledPasswordInput', () => {
 
     const input = screen.getByLabelText(/test input/i) as HTMLInputElement;
 
-    expect(input).toBeDisabled();
+    expect(input.disabled).toBe(true);
   });
 
   test('displays field error message', () => {
@@ -63,7 +62,7 @@ describe('ControlledPasswordInput', () => {
       />,
     );
 
-    expect(screen.getByText(/Test field error message/i)).toBeInTheDocument();
+    expect(screen.getByText(/Test field error message/i)).toBeDefined();
   });
 
   test('displays form error message', () => {
@@ -75,7 +74,7 @@ describe('ControlledPasswordInput', () => {
       />,
     );
 
-    expect(screen.getByText(/Test form error message/i)).toBeInTheDocument();
+    expect(screen.getByText(/Test form error message/i)).toBeDefined();
   });
 
   test('renders correctly with placeholder', () => {
@@ -91,7 +90,7 @@ describe('ControlledPasswordInput', () => {
       /test placeholder/i,
     ) as HTMLInputElement;
 
-    expect(input).toBeInTheDocument();
+    expect(input).toBeDefined();
   });
 
   test('toggles password visibility', () => {

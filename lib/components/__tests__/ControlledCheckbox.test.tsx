@@ -1,6 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { type Path, useForm } from 'react-hook-form';
 import ControlledCheckbox from '../ControlledCheckbox';
 
@@ -22,7 +22,7 @@ const TestComponent = <T,>({
   const { control } = useForm();
 
   return (
-    <ChakraProvider>
+    <ChakraProvider value={createSystem(defaultConfig)}>
       <ControlledCheckbox<T>
         control={control}
         isDisabled={isDisabled}
@@ -37,16 +37,17 @@ describe('ControlledCheckbox', () => {
   test('renders correctly with label', () => {
     render(<TestComponent<TestForm> name="test-input" label="Test Input" />);
 
-    expect(screen.getByLabelText(/test input/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/test input/i)).toBeDefined();
   });
 
-  test('handles checkbox change', () => {
+  test('handles checkbox change', async () => {
     render(<TestComponent<TestForm> name="test-input" label="Test Input" />);
 
     const input = screen.getByLabelText(/test input/i) as HTMLInputElement;
 
-    fireEvent.click(input);
-    expect(input).toBeChecked();
+    await userEvent.click(input);
+
+    expect(input.checked).toBe(true);
   });
 
   test('disables input', () => {
@@ -60,6 +61,6 @@ describe('ControlledCheckbox', () => {
 
     const input = screen.getByLabelText(/test input/i) as HTMLInputElement;
 
-    expect(input).toBeDisabled();
+    expect(input.disabled).toBe(true);
   });
 });

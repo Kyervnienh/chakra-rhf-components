@@ -1,6 +1,5 @@
+import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { ChakraProvider } from '@chakra-ui/react';
 import { type Path, useForm } from 'react-hook-form';
 import type { ControlledSelectProps } from '..';
 import ControlledSelect from '../ControlledSelect';
@@ -39,7 +38,7 @@ const TestComponent = <T,>({
   if (setErrorMessage) setError(name, { message: setErrorMessage });
 
   return (
-    <ChakraProvider>
+    <ChakraProvider value={createSystem(defaultConfig)}>
       <ControlledSelect<T>
         control={control}
         fieldError={fieldError}
@@ -57,7 +56,7 @@ const TestComponent = <T,>({
 describe('ControlledSelect', () => {
   test('renders correctly with label', () => {
     render(<TestComponent<TestForm> name="test-input" label="Test Input" />);
-    expect(screen.getByLabelText(/test input/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/test input/i)).toBeDefined();
   });
 
   test('renders correctly with options', () => {
@@ -72,8 +71,8 @@ describe('ControlledSelect', () => {
       />,
     );
 
-    expect(screen.getByText(/Option 1/i)).toBeInTheDocument();
-    expect(screen.getByText(/Option 2/i)).toBeInTheDocument();
+    expect(screen.getByText(/Option 1/i)).toBeDefined();
+    expect(screen.getByText(/Option 2/i)).toBeDefined();
   });
 
   test('handles input change', () => {
@@ -118,7 +117,7 @@ describe('ControlledSelect', () => {
       />,
     );
     const select = screen.getByLabelText(/test input/i) as HTMLSelectElement;
-    expect(select).toBeDisabled();
+    expect(select.disabled).toBe(true);
   });
 
   test('disables input while loading', () => {
@@ -134,7 +133,9 @@ describe('ControlledSelect', () => {
       />,
     );
 
-    expect(screen.getByLabelText(/test Input/i)).toBeDisabled();
+    expect(
+      (screen.getByLabelText(/test Input/i) as HTMLSelectElement).disabled,
+    ).toBe(true);
   });
 
   test('displays field error message', () => {
@@ -145,7 +146,7 @@ describe('ControlledSelect', () => {
         fieldError="Test field error message"
       />,
     );
-    expect(screen.getByText(/Test field error message/i)).toBeInTheDocument();
+    expect(screen.getByText(/Test field error message/i)).toBeDefined();
   });
 
   test('displays form error message', () => {
@@ -156,7 +157,7 @@ describe('ControlledSelect', () => {
         setErrorMessage="Test form error message"
       />,
     );
-    expect(screen.getByText(/Test form error message/i)).toBeInTheDocument();
+    expect(screen.getByText(/Test form error message/i)).toBeDefined();
   });
 
   test('renders correctly with placeholder', () => {
@@ -171,6 +172,6 @@ describe('ControlledSelect', () => {
     const placeholderOption = screen.getByText(
       /test placeholder/i,
     ) as HTMLOptionElement;
-    expect(placeholderOption).toBeInTheDocument();
+    expect(placeholderOption).toBeDefined();
   });
 });

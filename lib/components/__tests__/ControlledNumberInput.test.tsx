@@ -1,6 +1,5 @@
+import { ChakraProvider, createSystem, defaultConfig } from '@chakra-ui/react';
 import { fireEvent, render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { ChakraProvider } from '@chakra-ui/react';
 import { type Path, useForm } from 'react-hook-form';
 import ControlledNumberInput from '../ControlledNumberInput';
 
@@ -34,7 +33,7 @@ const TestComponent = <T,>({
   if (setErrorMessage) setError(name, { message: setErrorMessage });
 
   return (
-    <ChakraProvider>
+    <ChakraProvider value={createSystem(defaultConfig)}>
       <ControlledNumberInput<T>
         control={control}
         fieldError={fieldError}
@@ -53,7 +52,7 @@ describe('ControlledNumberInput', () => {
   test('renders correctly with label', () => {
     render(<TestComponent<TestForm> name="test-input" label="Test Input" />);
 
-    expect(screen.getByLabelText(/test input/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/test input/i)).toBeDefined();
   });
 
   test('handles input change', () => {
@@ -76,7 +75,7 @@ describe('ControlledNumberInput', () => {
 
     const input = screen.getByLabelText(/test input/i) as HTMLInputElement;
 
-    expect(input).toBeDisabled();
+    expect(input.disabled).toBe(true);
   });
 
   test('displays field error message', () => {
@@ -88,7 +87,7 @@ describe('ControlledNumberInput', () => {
       />,
     );
 
-    expect(screen.getByText(/Test field error message/i)).toBeInTheDocument();
+    expect(screen.getByText(/Test field error message/i)).toBeDefined();
   });
 
   test('displays form error message', () => {
@@ -100,7 +99,7 @@ describe('ControlledNumberInput', () => {
       />,
     );
 
-    expect(screen.getByText(/Test form error message/i)).toBeInTheDocument();
+    expect(screen.getByText(/Test form error message/i)).toBeDefined();
   });
 
   test('accepts only numbers', () => {
@@ -156,6 +155,6 @@ describe('ControlledNumberInput', () => {
       />,
     );
 
-    expect(screen.getByText('$')).toBeInTheDocument();
+    expect(screen.getByText('$')).toBeDefined();
   });
 });
