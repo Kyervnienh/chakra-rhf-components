@@ -19,7 +19,7 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./lib/*"]
     }
   },
   "include": ["lib", "src", "tests/**/*.ts", "playwright.config.ts"],

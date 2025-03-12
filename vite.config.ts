@@ -1,8 +1,9 @@
 /// <reference types="vitest/config" />
 import react from '@vitejs/plugin-react-swc';
-import { defineConfig } from 'vite';
+import { defineConfig, resolveConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { externalizeDeps } from 'vite-plugin-externalize-deps';
+import tsconfigPaths from 'vite-tsconfig-paths';
 
 // https://vite.dev/config/
 export default defineConfig({
@@ -17,6 +18,7 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    tsconfigPaths(),
     dts({ copyDtsFiles: true, insertTypesEntry: true }),
     externalizeDeps(),
   ],
@@ -28,15 +30,15 @@ export default defineConfig({
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
       all: true,
-      include: ['src/**/*.{js,jsx,ts,tsx}'],
+      include: ['lib/**/*.{js,jsx,ts,tsx}'],
       exclude: [
         'node_modules',
-        'src/**/*.d.{js,jsx,ts,tsx}',
-        'src/**/*.gen.{js,jsx,ts,tsx}',
-        'src/**/*.test.{js,jsx,ts,tsx}',
-        'src/assets/',
-        'src/client/',
-        'src/tests/',
+        'lib/**/*.d.{js,jsx,ts,tsx}',
+        'lib/**/*.gen.{js,jsx,ts,tsx}',
+        'lib/**/*.test.{js,jsx,ts,tsx}',
+        'lib/assets/',
+        'lib/client/',
+        'lib/tests/',
       ],
     },
   },
