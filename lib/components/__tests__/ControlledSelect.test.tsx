@@ -56,7 +56,9 @@ const TestComponent = <T,>({
 describe('ControlledSelect', () => {
   test('renders correctly with label', () => {
     render(<TestComponent<TestForm> name="test-input" label="Test Input" />);
-    expect(screen.getByLabelText(/test input/i)).toBeDefined();
+    expect(
+      screen.getByLabelText('Test Input', { selector: 'button' }),
+    ).toBeDefined();
   });
 
   test('renders correctly with options', () => {
@@ -87,7 +89,9 @@ describe('ControlledSelect', () => {
       />,
     );
 
-    const select = screen.getByLabelText(/test input/i) as HTMLSelectElement;
+    const select = screen.getByLabelText(/test input/i, {
+      selector: 'button',
+    }) as HTMLSelectElement;
 
     expect(select.value).toBe('');
 
@@ -104,7 +108,9 @@ describe('ControlledSelect', () => {
       />,
     );
 
-    const select = screen.getByLabelText(/test input/i) as HTMLSelectElement;
+    const select = screen.getByLabelText(/test input/i, {
+      selector: 'button',
+    }) as HTMLSelectElement;
     expect(select.value).toBe('');
   });
 
@@ -116,7 +122,9 @@ describe('ControlledSelect', () => {
         isDisabled
       />,
     );
-    const select = screen.getByLabelText(/test input/i) as HTMLSelectElement;
+    const select = screen.getByLabelText(/test input/i, {
+      selector: 'button',
+    }) as HTMLSelectElement;
     expect(select.disabled).toBe(true);
   });
 
@@ -134,7 +142,11 @@ describe('ControlledSelect', () => {
     );
 
     expect(
-      (screen.getByLabelText(/test Input/i) as HTMLSelectElement).disabled,
+      (
+        screen.getByLabelText(/test Input/i, {
+          selector: 'button',
+        }) as HTMLSelectElement
+      ).disabled,
     ).toBe(true);
   });
 

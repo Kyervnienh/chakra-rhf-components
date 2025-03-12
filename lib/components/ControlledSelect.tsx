@@ -2,7 +2,6 @@ import {
   Field,
   SelectContent,
   SelectItem,
-  SelectLabel,
   SelectRoot,
   SelectTrigger,
   SelectValueText,
@@ -17,46 +16,51 @@ const ControlledSelect = <T,>({
   fieldError,
   helperText,
   isDisabled,
-  //isLoading,
+  isLoading,
   label,
   name,
   options,
-  // placeholder = label,
+  placeholder = label,
 }: ControlledSelectProps<T>) => {
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field: { onChange, value }, fieldState: { error } }) => (
-        <SelectRoot
-          collection={createListCollection({
-            items: options,
-          })}
-          width="320px"
-          value={value}
-          onChange={onChange}
-          disabled={isDisabled}
-          id={name}
-          invalid={!!error || !!fieldError}
-        >
-          <SelectLabel>{label}</SelectLabel>
-          <SelectTrigger>
-            <SelectValueText placeholder="Select movie" />
-          </SelectTrigger>
-          <SelectContent>
-            {options.map((option) => (
-              <SelectItem item={option} key={option.value}>
-                {option.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
+      render={({
+        field: { onBlur, onChange, value },
+        fieldState: { error },
+      }) => (
+        <Field.Root invalid={!!error || !!fieldError}>
+          <Field.Label>{label}</Field.Label>
+
+          <SelectRoot
+            collection={createListCollection({ items: options })}
+            disabled={isDisabled || isLoading}
+            name={name}
+            onInteractOutside={() => onBlur()}
+            onValueChange={({ value }) => onChange(value)}
+            value={value || []}
+            width="320px"
+          >
+            <SelectTrigger>
+              <SelectValueText placeholder={placeholder} />
+            </SelectTrigger>
+
+            <SelectContent>
+              {options.map((option) => (
+                <SelectItem item={option} key={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </SelectRoot>
 
           {helperText && <Field.HelperText>{helperText}</Field.HelperText>}
 
           {(error?.message || fieldError) && (
             <Field.ErrorText>{error?.message || fieldError}</Field.ErrorText>
           )}
-        </SelectRoot>
+        </Field.Root>
       )}
     />
   );
