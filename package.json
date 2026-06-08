@@ -59,7 +59,7 @@
     "vite-plugin-dts": "^4.5.3",
     "vite-plugin-externalize-deps": "^0.9.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "^3.0.8"
+    "vitest": "^3.2.6"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["@biomejs/biome", "@swc/core", "esbuild"]
